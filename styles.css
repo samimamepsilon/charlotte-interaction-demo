@@ -449,7 +449,7 @@
   border-radius: 4px;
   background-color: var(--coreui-input-background);
   border: 1px solid var(--coreui-input-border);
-  color: #fff;
+  color: var(--text-primary);
   font-family: "Source Sans 3", sans-serif;
   font-size: 12px;
 }
