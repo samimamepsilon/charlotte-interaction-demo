@@ -1,4 +1,4 @@
-# Charlotte Interaction Demo
+# Charlotte Interaction Demo 🚀
 
 A simple HTML/CSS/JS project for your interaction demo.
 
