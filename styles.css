@@ -8,7 +8,12 @@
   --placeholder-shell-background: #212121;
   --placeholder-canvas-background: #333333;
   --placeholder-shell-secondary-background: #262626;
-  --placeholder-swatch: #0063e6;
+
+  --placeholder-swatch: #4D9AFF;
+  --placeholder-swatch-2: #FFE080;
+  --placeholder-swatch-3: #E5714D;
+  --placeholder-branch-border: #333;
+
   --placeholder-artboard-background: #ffffff;
   --placeholder-timeline-inner-element: #404040;
   --placeholder-mini-button: #333;
@@ -29,6 +34,8 @@
 
   --bg-hover: #404040;
   --bg-hover-secondary: #2b2b2b;
+
+  --placeholder-interaction-header-border: #737373;
 }
 
 /* Light Theme */
@@ -40,7 +47,7 @@
   --placeholder-shell-secondary-background: #f7f7f7;
   --bg-hover: #f0f6ff;
   --bg-hover-secondary: #f0f6ff;
-  --placeholder-swatch: #3498db;
+  --placeholder-swatch: #0063e6;
   --placeholder-artboard-background: #ffffff;
   --placeholder-timeline-inner-element: #F5F5F5;
   --placeholder-mini-button: #F5F5F5;
@@ -48,6 +55,12 @@
   --text-primary: #1a1a1a;
   --text-secondary: #737373;
   --text-tertiary: #737373;
+
+
+  --placeholder-swatch: #0063e6;
+  --placeholder-swatch-2: #FFC000;
+  --placeholder-swatch-3: #C8451E;
+  --placeholder-branch-border: #e6e6e6;
 
   --icon-primary: #737373;
   --icon-secondary: #bdc3c7;
@@ -58,6 +71,8 @@
 
   --medium-shadow: 0px .8px 4px rgb(0 0 0 / 9%), 0px 2px 6px rgb(0 0 0 / 14%), 0px 10px 10px rgb(0 0 0 / 15%);
   --tween-default: #7238C7;
+
+  --placeholder-interaction-header-border: #CCCCCC;
 }
 
 /* ===== GLOBAL RESET & BASE STYLES ===== */
@@ -168,7 +183,7 @@
   background-color: var(--placeholder-shell-background);
   height: 32px;
   border-radius: 4px;
-  min-width: 267px;
+  min-width: 300px;
   display: flex;
   padding: 4px;
   gap: 4px;
@@ -236,13 +251,13 @@
 
 .right-div {
   grid-column: span 2;
-  height: 100%;
+  height: auto;
   background-color: var(--placeholder-background-layer);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 267px;
+  min-width: 300px;
 }
 
 /* ===== FLOATING TOOLBAR STYLES ===== */
@@ -385,6 +400,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  border-left: 4px solid var(--placeholder-interaction-header-border);
 }
 
 .accordion-header {
@@ -414,19 +430,64 @@
 }
 
 /* ===== LEGAL TEXT STYLES ===== */
+
+
 .legal-text-child {
-  margin-left: 16px;
+  display: flex;
+  
+  border-radius: 4px;
+  width: auto;
+
+  margin-left: 6px;
   display: none;
-  flex-direction: column;
+
   align-items: start;
-  gap: 8px;
 }
 
+.legal-text-bucket {
+  width: 100%;
+  background-color: var(--placeholder-shell-background);
+  border-radius: 4px;
+}
+
+.accordion-header-lt {
+
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 100%;
+}
+
+
+
 .legal-text-content {
+
+  padding: 8px;
+  padding-top: 0;
   display: none;
   flex-direction: column;
   gap: 8px;
   width: 100%;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.ip-div {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.info-icon {
+  height: 12px;
+  width: 12px;
+  background-color: #4d9aff;
+  border-radius: 50%;
+  margin-top: -2px;
 }
 
 .legal-text {
@@ -566,6 +627,7 @@
   gap: 2px;
 }
 
+
 .timeline-ele-container {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -576,12 +638,56 @@
 .timeline-ele-branch {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: none;
-  align-items: center;
   height: 32px;
-  margin-left: 16px;
+  margin-left: 6px;
   flex-grow: 1;
-  background-color: var(--placeholder-shell-background);
   border-radius: 4px;
+
+}
+
+.branch-line-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2px;
+  height: 100%;
+}
+
+.branch-line {
+  width: 8px;
+  height:50%;
+  border:solid 2px var(--placeholder-branch-border);
+  border-top: none;
+  border-right: none;
+
+}
+
+.branch-line-2 {
+    width: 8px;
+  height:50%;
+  border:solid 2px var(--placeholder-branch-border);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.bl1 {
+  border-bottom-left-radius: 2px;
+}
+
+.bl2 {
+  transform: translateY(-2px);
+  height: calc(50% + 2px);
+  border-bottom-left-radius: 2px;
+}
+
+.branch-bucket {
+  display: flex;
+  align-items: center;
+  
+  background-color: var(--placeholder-shell-background);
+  width: 100%;
+  border-radius: 4px;
+  
 }
 
 .timeline-element {
@@ -608,12 +714,45 @@
 .t-name-div {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  padding: 4px;
   align-items: center;
+  gap: 2px;
+
+}
+
+.t-name-div-inner {
   height: 32px;
-  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  
   background-color: var(--placeholder-shell-background);
   border-radius: 4px;
+  padding: 4px;
+  flex-grow: 1;
+}
+
+.indicator-div {
+  height: 32px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--placeholder-shell-background);
+  border-radius: 4px;
+  padding:3px 4px;
+  gap: 2px;
+}
+
+.animation-icon {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+  /* opacity: 20%; */
+}
+
+.interaction-icon {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+  opacity: 20%;
+  transform: scaleX(-1);
 }
 
 .t-name-div:hover {
@@ -635,6 +774,21 @@
   background-color: var(--placeholder-swatch);
   margin-right: 4px;
 }
+
+.swatch-1 {
+}
+
+.swatch-2 {
+  background-color: var(--placeholder-swatch-2);
+
+}
+
+.swatch-3 {
+  background-color: var(--placeholder-swatch-3);
+
+}
+
+
 
 .motion {
   font-size: 12px;
@@ -758,7 +912,7 @@
 /* ===== TIMELINE RIGHT SECTION ===== */
 .right-t {
   grid-column: span 2;
-  min-width: 267px;
+  min-width: 300px;
   height: auto;
   border-radius: 4px;
   display: flex;
@@ -931,20 +1085,20 @@
 .tween-dot {
   width: 10px;
   height: 10px;
-  background-color: var(--tween-default);
+  background-color: var(--placeholder-swatch);
   border-radius: 50%;
 }
 
 .tween-line {
   height: 2px;
   width: 100%;
-  background-color: var(--tween-default);
+  background-color: var(--placeholder-swatch);
 }
 
 .tween-diamond {
   width: 10px;
   height: 9px;
-  background-color: var(--tween-default);
+  background-color: var(--placeholder-swatch);
   border-radius: 2px;
   transform: rotate(45deg);
 }
