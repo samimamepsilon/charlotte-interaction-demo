@@ -40,6 +40,12 @@
   --badge-border: #666;
   --badge-background: #333;
   --badge-text: #fff;
+
+  --artboard-bg: #1a1a1a;
+  --artboard-border: #2b2b2b;
+  --artboard-shape: #2b2b2b;
+  --artboard-selected-bg: #2b2b2b;
+  --artboard-shape-selected: #fff;
 }
 
 /* Light Theme */
@@ -59,6 +65,7 @@
   --text-primary: #1a1a1a;
   --text-secondary: #737373;
   --text-tertiary: #737373;
+ 
 
   --placeholder-swatch-2: #FFC000;
   --placeholder-swatch-3: #C8451E;
@@ -79,6 +86,12 @@
   --badge-border: #667C99;
   --badge-background: #F4F6FA;
   --badge-text: #1a1a1a;
+
+  --artboard-bg: #ffffff;
+  --artboard-border: #e0e0e0;
+  --artboard-shape: #e5e5e5;
+  --artboard-selected-bg: #0063e6;
+  --artboard-shape-selected: #fff;
 }
 
 /* ===== GLOBAL RESET & BASE STYLES ===== */
@@ -178,20 +191,20 @@
   padding: 4px 0 1px 0;
   font-size: 10px;
   font-weight: 600;
-  color: #B3B3B3;
-  border: solid 1px #2B2B2B;
-  background-color: #1A1A1A;
+  color: var(--text-tertiary);
+  border: solid 1px var(--artboard-border);
+  background-color: var(--artboard-bg);
   border-radius: 4px;
   font-family: 'source sans 3';
 }
 
 .artboard-selector:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .artboard-shape {
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: #2B2B2B;
+  background-color: var(--artboard-shape);
 }
 
 /* .artboard-selector:hover .artboard-shape {
@@ -228,13 +241,13 @@
 .custom-ab-13 { width: 20px; height: 4px; }
 
 .artboard-selector.selected {
-  background-color: #2B2B2B;
+  background-color: var(--artboard-selected-bg);
   color: #fff;
-  border-color: #2B2B2B;
+  border-color: var(--artboard-selected-bg);
 }
 
 .artboard-selector.selected .artboard-shape {
-  background-color: #fff;
+  background-color: var(--artboard-shape-selected);
 }
 
 
