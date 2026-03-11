@@ -24,18 +24,52 @@ function switchTab(tabName) {
   
   $(`[data-tab="${tabName}"]`)?.classList.add("tab1");
   $(`[data-content="${tabName}"]`).style.display = "flex";
+  updateTabIndicator();
+  applyToggleSizeState();
 }
 
-// Generic chevron toggle function
+function applyToggleSizeState() {
+  const toggleItems = $$(".toggle-size .toggle-item");
+  const activeIndex = Array.from(toggleItems).findIndex(b => b.classList.contains("is-selected"));
+  const hideLeft = activeIndex === 1;
+  const header2 = $(".header2");
+  if (header2) header2.classList.toggle("artboard-expanded", hideLeft);
+  const activeSection = $(".content-section[style*='flex']");
+  if (!activeSection) return;
+  const leftDiv = activeSection.querySelector(".left-div");
+  const canvasDiv = activeSection.querySelector(".canvas");
+  if (leftDiv) leftDiv.style.display = hideLeft ? "none" : "";
+  if (canvasDiv) canvasDiv.style.gridColumn = hideLeft ? "span 8" : "";
+}
+
+// Sliding indicator for tab bar
+function updateTabIndicator() {
+  const tabBar = $(".header-3-tabs");
+  const selected = $(".h3-t.tab1");
+  if (!tabBar || !selected) return;
+  tabBar.style.setProperty("--indicator-width", `${selected.offsetWidth}px`);
+  tabBar.style.setProperty("--indicator-left", `${selected.offsetLeft - 4}px`);
+}
+
+// Sliding indicator for icon toggle size control
+function updateToggleSizeIndicator() {
+  const container = $(".toggle-size");
+  const selected = $(".toggle-size .toggle-item.is-selected");
+  if (!container || !selected) return;
+  container.style.setProperty("--toggle-size-width", `${selected.offsetWidth}px`);
+  container.style.setProperty("--toggle-size-left", `${selected.offsetLeft - 4}px`);
+}
+
+// Generic chevron toggle function — simple display show/hide
 function createChevronToggle(targetAttribute) {
   return function() {
     const targetId = this.getAttribute(`data-${targetAttribute}-target`);
     const targetElement = $(`[data-${targetAttribute}-child="${targetId}"]`);
     if (!targetElement) return;
-    
+
     const isVisible = getComputedStyle(targetElement).display !== "none";
     targetElement.style.display = isVisible ? "none" : "flex";
-    
+
     const icon = this.querySelector(".chevron-icon");
     if (icon) {
       icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
@@ -71,46 +105,34 @@ function handleTimelineChevron() {
   }
 }
 
+// Toggle a parent section by selector prefix and rotate chevron (used for legal-text, click-index, rating)
+function toggleParentByPrefix(prefix) {
+  const children = $$(`.legal-text-child[data-legal-child^="${prefix}"]`);
+  if (!children.length) return;
+  const isVisible = getComputedStyle(children[0]).display !== "none";
+  children.forEach(el => (el.style.display = isVisible ? "none" : "flex"));
+  const icon = this.querySelector(".chevron-icon");
+  if (icon) icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
+}
+
 // Legal text chevron functionality (special case for parent/child logic)
 function handleLegalChevron() {
   const targetId = this.getAttribute("data-legal-target");
-  
-  if (targetId === "legal-text-1") {
-    // Parent chevron for Legal Text - toggle legal text children only
-    const legalTextChildren = $$('.legal-text-child[data-legal-child^="legal-text"]');
-    const isVisible = legalTextChildren.length > 0 && getComputedStyle(legalTextChildren[0]).display !== "none";
-    
-    legalTextChildren.forEach(child => child.style.display = isVisible ? "none" : "flex");
-    
-    const icon = this.querySelector(".chevron-icon");
-    if (icon) {
-      icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
-    }
-  } else if (targetId === "click-index-1") {
-    // Parent chevron for Click Index - toggle click index children only
-    const clickIndexChildren = $$('.legal-text-child[data-legal-child^="click-index"]');
-    const isVisible = clickIndexChildren.length > 0 && getComputedStyle(clickIndexChildren[0]).display !== "none";
-    
-    clickIndexChildren.forEach(child => child.style.display = isVisible ? "none" : "flex");
-    
-    const icon = this.querySelector(".chevron-icon");
-    if (icon) {
-      icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
-    }
-  } else if (targetId === "rating-1") {
-    // Parent chevron for Rating - toggle rating children only
-    const ratingChildren = $$('.legal-text-child[data-legal-child^="rating"]');
-    const isVisible = ratingChildren.length > 0 && getComputedStyle(ratingChildren[0]).display !== "none";
-    
-    ratingChildren.forEach(child => child.style.display = isVisible ? "none" : "flex");
-    
-    const icon = this.querySelector(".chevron-icon");
-    if (icon) {
-      icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
-    }
+  const parentPrefixes = {
+    "legal-text-1": "legal-text",
+    "click-index-1": "click-index",
+    "rating-1": "rating"
+  };
+  if (parentPrefixes[targetId]) {
+    toggleParentByPrefix.call(this, parentPrefixes[targetId]);
   } else {
-    // Child chevron - use generic toggle
-    createChevronToggle("legal").call(this);
+    // Simple show/hide for legal content panels (no animation)
+    const targetElement = $(`[data-legal-child="${targetId}"]`);
+    if (!targetElement) return;
+    const isVisible = getComputedStyle(targetElement).display !== "none";
+    targetElement.style.display = isVisible ? "none" : "flex";
+    const icon = this.querySelector(".chevron-icon");
+    if (icon) icon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
   }
 }
 
@@ -177,8 +199,53 @@ function init() {
   });
   console.log(`Attached timeline handler to ${timelineCount} timeline chevrons`);
 
+  // Eye toggle buttons
+  $$(".t-btn.eye").forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.classList.toggle("hidden");
+    });
+  });
+
+  // Lock toggle buttons
+  $$(".t-btn.lock").forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.classList.toggle("unlocked");
+    });
+  });
+
+  // Artboard selector
+  const groups = $$('.artboard-selector-group');
+  groups.forEach(group => {
+    const artboards = group.querySelectorAll('.artboard-selector');
+    artboards.forEach(artboard => {
+      artboard.addEventListener('click', () => {
+        artboards.forEach(b => b.classList.remove('selected'));
+        artboard.classList.add('selected');
+      });
+    });
+  });
+
   // Initialize with Design tab active
   switchTab("design");
-  
+
+  // Initialize icon toggle size control
+  const toggleItems = $$(".toggle-size .toggle-item");
+  toggleItems.forEach(btn => {
+    btn.addEventListener("click", () => {
+      toggleItems.forEach(b => b.classList.remove("is-selected"));
+      btn.classList.add("is-selected");
+      updateToggleSizeIndicator();
+      applyToggleSizeState();
+    });
+  });
+  updateToggleSizeIndicator();
+
+  // Keep indicators in sync on window resize
+  window.addEventListener("resize", () => {
+    updateTabIndicator();
+    updateToggleSizeIndicator();
+  });
+
   console.log("Initialization complete!");
 }
+
