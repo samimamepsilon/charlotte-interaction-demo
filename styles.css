@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap");
 
-/* ===== CSS CHARLOTTE VARIABLES & THEMING ===== */
+/* ===== CSS VARIABLES & THEMING ===== */
 :root {
   /* Dark Theme (Default) */
   --placeholder-background-layer: #121212;
@@ -116,9 +116,11 @@
 .content-group {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1fr;
   gap: 2px;
   flex-grow: 1;
   height: 100%;
+  min-height: 0;
 }
 
 .timeline-group {
@@ -250,9 +252,6 @@
   background-color: var(--artboard-shape-selected);
 }
 
-
-
-
 .header3 {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -312,10 +311,6 @@
 .toggle-size .toggle-item:not(.is-selected):hover .toggle-icon {
   fill: var(--icon-accent);
 }
-
-
-
-
 
 .left-header-3 {
   width: 100%;
@@ -466,7 +461,6 @@
 }
 
 .canvas {
-  transition: 0.2s cubic-bezier(0, 0, 0.2, 1);
   grid-column: span 7;
   background-color: var(--placeholder-canvas-background);
   height: 100%;
@@ -793,6 +787,53 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.indicator-button-group {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.indicator-badge {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--placeholder-canvas-background);
+}
+
+.double-indicator-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 18px;
+  border-radius: 24px;
+  padding: 4px;
+  background-color: var(--placeholder-canvas-background);
+}
+
+.indicator-icon-1 {
+  width: 9px;
+  fill: var(--icon-accent);
+  transform: scaleX(-1);
+}
+
+.indicator-divider {
+  width: 1px;
+  height: 10px;
+  background-color: #404040;
+  border-radius: 1px;
+}
+
+.indicator-icon-2 {
+  width: 9px;
+  fill: var(--icon-accent);
+}
+
 .trash-button {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   margin-left: auto;
@@ -927,6 +968,8 @@
 }
 
 .timeline-inner-element {
+  /* margin-left: 2px;
+  margin-right: 2px; */
   height: 10px;
   width: 100%;
   background-color: var(--placeholder-timeline-inner-element);
@@ -1044,7 +1087,7 @@
 }
 
 .layers-div {
-  height: 60px;
+  height: 66px;
   background-color: var(--placeholder-shell-background);
   border-radius: 4px;
   padding: 8px;
@@ -1079,20 +1122,27 @@
   background-color: var(--bg-hover);
 }
 
+.collapse-btn:hover .zoom-icon {
+  fill: var(--icon-accent);
+}
+
 .collapse-btn:active {
   transform: translateY(1px) scale(0.98);
 }
 
 .timeline-layer-div {
-  height: 60px;
+  /* height: 64px; */
   background-color: var(--placeholder-shell-background);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  padding: 8px 4px 0 4px;
 }
 
 .controls-group {
-  margin: 8px;
+  /* margin: 8px; */
+  margin-left: 4px;
   display: flex;
   gap: 8px;
 }
@@ -1114,6 +1164,78 @@
   font-family: "Source Sans 3", sans-serif;
   color: #fff;
 }
+
+
+
+/* 21 big-tick-groups (0–10) + 84 small-ticks = 105 equal columns so spacing is even */
+.timeline-tick-group {
+  display: grid;
+  grid-template-columns: repeat(101, 1fr);
+  width: 100%;
+  align-items: end;
+  padding-bottom: 1.125em; /* room for labels below ticks */
+}
+
+.timeline-tick-group > * {
+  min-width: 0;
+  justify-self: center;
+}
+
+.big-tick-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Labels are taken out of flow so they don't affect column width */
+.big-tick-group p {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% + 2px);
+  margin: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Whole-second ticks */
+.big-tick-group.major .big-tick {
+  width: 1px;
+  height: 12px;
+  background-color: var(--text-secondary);
+}
+
+.big-tick-group.major p {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Half-second ticks */
+.big-tick-group.half .big-tick {
+  width: 1px;
+  height: 8px;
+  background-color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+.big-tick-group.half p {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+/* Micro ticks */
+.small-tick {
+  width: .5px;
+  height: 4px;
+  background-color: var(--text-secondary);
+  opacity: 0.5;
+}
+
 
 /* ===== TIMELINE MIDDLE SECTION ===== */
 .middle-t {
